@@ -26,8 +26,6 @@ Jeżeli środowisko pozwala używać subagentów / collaboration tools, deleguj 
 
 Chcę uzyskać efekt podobny do małego zespołu badawczego, w którym wiele niezależnych agentów eksploruje problem z różnych stron, następnie wzajemnie sprawdza swoje wyniki, a główny koordynator kieruje kolejnymi rundami badań.
 
-Główny koordynator działa na **modelu i reasoning effort aktualnej sesji**, w której uruchomiono ten prompt.
-
 ---
 
 # FAZA 1 — Rozbicie problemu
