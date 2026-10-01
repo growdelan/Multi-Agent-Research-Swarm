@@ -84,8 +84,8 @@ To jest zalecany **domyślny preset**.
 | Etap | Model | Effort |
 | --- | --- | --- |
 | Orchestrator / główna sesja | `gpt-6.1-sol` | `medium` |
-| FAZA 2 — B + C + D + F | `gpt-6.1-sol` | `medium` |
-| FAZA 2 — A + E | `gpt-6-luna` | `high` |
+| FAZA 2 — C + F | `gpt-6.1-sol` | `medium` |
+| FAZA 2 — A + B + D + E | `gpt-6.1-sol` | `medium` |
 | Critic 1 — Adversarial | `gpt-6.1-sol` | `high` |
 | Critic 2 — Comparative | `gpt-6.1-sol` | `high` |
 | FAZA 4 — 2–4 Follow-up Agents | `gpt-6.1-sol` | `high` |
@@ -94,7 +94,7 @@ To jest zalecany **domyślny preset**.
 
 Używaj tej konfiguracji do większości problemów zawodowych, technicznych, organizacyjnych i decyzyjnych.
 
-Luna w rolach A i E ma sens, gdy koordynator może zlecić konkretną analizę standardowego rozwiązania lub optymalizację z jasnymi kryteriami. Jeżeli te zadania wymagają otwartych badań, wielu niepewnych założeń lub złożonego rozumowania, ustaw dla nich `gpt-6.1-sol` z `medium` albo `high`. Agenci B i D oraz obaj krytycy korzystają z Sol, ponieważ szukanie alternatyw, kontrprzykładów i rozstrzyganie sprzeczności nie są prostymi zadaniami pomocniczymi.
+Opcjonalnie, dla oszczędności, w swojej kopii szablonu wydziel role A i E i ustaw dla nich `gpt-6-luna` z `high`, gdy można zlecić konkretną analizę standardowego rozwiązania lub optymalizację z jasnymi kryteriami. Jeżeli zadania wymagają otwartych badań, wielu niepewnych założeń lub złożonego rozumowania, pozostań przy `gpt-6.1-sol`. Agenci B i D oraz obaj krytycy korzystają z Sol, ponieważ szukanie alternatyw, kontrprzykładów i rozstrzyganie sprzeczności nie są prostymi zadaniami pomocniczymi.
 
 ---
 
@@ -105,8 +105,8 @@ Preset przeznaczony dla problemów, gdzie **jakość rozwiązania jest znacznie 
 | Etap | Model | Effort |
 | --- | --- | --- |
 | Orchestrator / główna sesja | `gpt-6-astra` | `high` |
-| FAZA 2 — B + C + D + F | `gpt-6.1-sol` | `high` |
-| FAZA 2 — A + E | `gpt-6.1-sol` | `high` |
+| FAZA 2 — C + F | `gpt-6.1-sol` | `high` |
+| FAZA 2 — A + B + D + E | `gpt-6.1-sol` | `high` |
 | Critic 1 — Adversarial | `gpt-6-astra` | `high` |
 | Critic 2 — Comparative | `gpt-6.1-sol` | `high` |
 | FAZA 4 — 2–4 Follow-up Agents | `gpt-6.1-sol` | `high` |
@@ -133,12 +133,12 @@ Używaj go do trudnych problemów naukowych, matematycznych, badawczych lub szcz
 [CEL]
 ```
 
-4. Prompt ma już wpisany preset typowego problemu zawodowego. Dla trudnego problemu badawczego zmień model i effort koordynatora oraz ustawienia poszczególnych faz zgodnie z drugą tabelą.
+4. W swojej kopii szablonu uzupełnij pola `[MODEL]` i `[EFFORT]` dla poszczególnych faz zgodnie z wybranym presetem. Plik `Prompt.md` pozostaje uniwersalnym szablonem bez wpisanych modeli.
 5. Uruchom prompt.
 
 Orchestrator zajmie się dalszym podziałem pracy.
 
-W promptcie jawnie żądamy delegowania do subagentów i wskazujemy ich modele. Ustawienia trzeba zastosować przy ich uruchamianiu; bez jawnej konfiguracji subagent może odziedziczyć model i effort rodzica. Jeżeli środowisko nie obsługuje wybranego modelu, effortu lub liczby równoległych agentów, koordynator powinien podać faktycznie użyte ustawienia i ograniczenia. Przy mniejszym limicie równoległości uruchom agentów partiami, zachowując niezależność pierwszej rundy.
+Po uzupełnieniu szablonu ustawienia subagentów trzeba zastosować przy ich uruchamianiu; bez jawnej konfiguracji subagent może odziedziczyć model i effort rodzica. Jeżeli środowisko nie obsługuje wybranego modelu, effortu lub liczby równoległych agentów, koordynator powinien podać faktycznie użyte ustawienia i ograniczenia. Przy mniejszym limicie równoległości uruchom agentów partiami, zachowując niezależność pierwszej rundy.
 
 ---
 
