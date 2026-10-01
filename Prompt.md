@@ -26,6 +26,17 @@ Jeżeli środowisko pozwala używać subagentów / collaboration tools, deleguj 
 
 Chcę uzyskać efekt podobny do małego zespołu badawczego, w którym wiele niezależnych agentów eksploruje problem z różnych stron, następnie wzajemnie sprawdza swoje wyniki, a główny koordynator kieruje kolejnymi rundami badań.
 
+## Ustawienia modeli — preset domyślny
+
+Konfiguracja z 1 października 2026, po DevDay 2026, dla typowego problemu zawodowego.
+
+**Model głównej sesji:** `gpt-6.1-sol`
+**Reasoning effort głównej sesji:** `medium`
+
+Te ustawienia użytkownik wybiera w interfejsie przed uruchomieniem promptu. Sam tekst nie zmienia modelu bieżącej sesji. Syntezę końcową wykonaj w tej samej sesji z tymi samymi ustawieniami.
+
+Przy tworzeniu subagentów jawnie zastosuj model i reasoning effort wskazane przy ich rolach, korzystając z mechanizmu konfiguracji dostępnego w środowisku. Nie polegaj na dziedziczeniu ustawień rodzica, jeśli dana rola ma inny model lub effort. Podaj faktycznie użyte ustawienia oraz wszelkie odstępstwa od presetu.
+
 ---
 
 # FAZA 1 — Rozbicie problemu
@@ -49,19 +60,23 @@ Nie rozwiązuj jeszcze całego problemu samodzielnie.
 
 Uruchom równolegle **6 niezależnych agentów eksploracyjnych**, chyba że charakter problemu wyraźnie uzasadnia inną liczbę.
 
+Jeżeli limit środowiska jest niższy, uruchom ich partiami. Nie przekazuj kolejnej partii wyników wcześniejszych agentów przed zakończeniem niezależnej eksploracji.
+
 Każdy agent powinien otrzymać własny kierunek badań.
 
 ## Konfiguracja modeli
 
-### Agenci C i F
+### Agenci B, C, D i F
 
-**Model:** `[MODEL]`
-**Reasoning effort:** `[EFFORT]`
+**Model:** `gpt-6.1-sol`
+**Reasoning effort:** `medium`
 
-### Agenci A, B, D i E
+### Agenci A i E
 
-**Model:** `[MODEL]`
-**Reasoning effort:** `[EFFORT]`
+**Model:** `gpt-6-luna`
+**Reasoning effort:** `high`
+
+Użyj Luny tylko do jasno określonej analizy standardowego rozwiązania lub optymalizacji z konkretnymi kryteriami. Jeśli zadanie A lub E wymaga otwartych badań, wielu niepewnych założeń lub złożonego rozumowania, użyj `gpt-6.1-sol` z `medium` albo `high` i odnotuj zmianę.
 
 ---
 
@@ -158,8 +173,8 @@ Autorzy wcześniejszych propozycji nie powinni pełnić roli głównych krytykó
 
 ### Critic 1 — Adversarial Reviewer
 
-**Model:** `[MODEL]`
-**Reasoning effort:** `[EFFORT]`
+**Model:** `gpt-6.1-sol`
+**Reasoning effort:** `high`
 
 Spróbuj **obalić** przedstawione rozwiązania.
 
@@ -184,8 +199,8 @@ Twoim zadaniem jest znaleźć problemy.
 
 ### Critic 2 — Comparative Reviewer
 
-**Model:** `[MODEL]`
-**Reasoning effort:** `[EFFORT]`
+**Model:** `gpt-6.1-sol`
+**Reasoning effort:** `high`
 
 Porównaj wszystkie rozwiązania.
 
@@ -211,8 +226,8 @@ Na podstawie wyników eksploracji i krytyki zidentyfikuj **najważniejsze nieroz
 
 Uruchom dodatkowych **od 2 do 4 agentów** tylko dla tych obszarów.
 
-**Model:** `[MODEL]`
-**Reasoning effort:** `[EFFORT]`
+**Model:** `gpt-6.1-sol`
+**Reasoning effort:** `high`
 
 Każdy powinien otrzymać osobny, konkretny problem do rozstrzygnięcia.
 
@@ -244,8 +259,8 @@ Po wybraniu najlepszego kandydata uruchom niezależnego agenta weryfikacyjnego.
 
 ### Verification Agent
 
-**Model:** `[MODEL]`
-**Reasoning effort:** `[EFFORT]`
+**Model:** `gpt-6.1-sol`
+**Reasoning effort:** `high`
 
 Verification Agent powinien otrzymać:
 

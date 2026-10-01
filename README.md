@@ -65,22 +65,36 @@ Najlepiej sprawdza się, gdy problem:
 
 Prompt pozwala określić osobno modele i reasoning effort dla poszczególnych etapów.
 
+**Aktualizacja: 1 października 2026, po DevDay 2026.** Używaj pełnych identyfikatorów modeli zamiast samych nazw „Sol”, „Terra” i „Astra”:
+
+| Model | Identyfikator | Rola w tym swarmie |
+| --- | --- | --- |
+| GPT-6.1 Sol | `gpt-6.1-sol` | Główna praca, otwarta eksploracja, krytyka i rozwijanie rozwiązań |
+| GPT-6 Luna | `gpt-6-luna` | Prostsze, jasno określone zadania pomocnicze |
+| GPT-6 Astra | `gpt-6-astra` | Koordynacja, krytyka i weryfikacja najtrudniejszych badań |
+
+Dobór ról poniżej jest rekomendacją dla tego promptu, nie wynikiem benchmarku. OpenAI zaleca GPT-6.1 Sol do złożonej pracy agentowej, Lunę do wąskich, powtarzalnych zadań, a Astrę do najbardziej wymagających problemów. Dlatego dawne role Terry dzielimy między Lunę i Sol zależnie od trudności; nie zakładamy zamienności tych modeli.
+
+Nie wszystkie starsze modele zostały wycofane: GPT-5.6 Terra pozostaje dostępna podczas wdrażania nowych modeli. Dostępność zależy od konta, klienta i ustawień organizacji. Sprawdź model picker w swojej sesji; dostępność modelu w API nie gwarantuje dostępu w Codexie z logowaniem ChatGPT. Źródło: [modele w Codexie i ChatGPT Work](https://learn.chatgpt.com/docs/models).
+
 ## 🟢 Typowy problem zawodowy
 
 To jest zalecany **domyślny preset**.
 
-| Etap                          | Model        | Effort     |
-| ----------------------------- | ------------ | ---------- |
-| Orchestrator / główna sesja   | **Sol**      | **Medium** |
-| FAZA 2 — C + F                | **Sol**      | **Medium** |
-| FAZA 2 — A + B + D + E        | **Terra**    | **Medium** |
-| Critic 1 — Adversarial        | **Sol**      | **High**   |
-| Critic 2 — Comparative        | **Terra**    | **High**   |
-| FAZA 4 — 2–4 Follow-up Agents | **Terra**    | **High**   |
-| FAZA 5 — Verification         | **Sol**      | **High**   |
-| FAZA 6 — Final Synthesis      | główna sesja | **Medium** |
+| Etap | Model | Effort |
+| --- | --- | --- |
+| Orchestrator / główna sesja | `gpt-6.1-sol` | `medium` |
+| FAZA 2 — B + C + D + F | `gpt-6.1-sol` | `medium` |
+| FAZA 2 — A + E | `gpt-6-luna` | `high` |
+| Critic 1 — Adversarial | `gpt-6.1-sol` | `high` |
+| Critic 2 — Comparative | `gpt-6.1-sol` | `high` |
+| FAZA 4 — 2–4 Follow-up Agents | `gpt-6.1-sol` | `high` |
+| FAZA 5 — Verification | `gpt-6.1-sol` | `high` |
+| FAZA 6 — Final Synthesis | główna sesja (`gpt-6.1-sol`) | `medium` |
 
 Używaj tej konfiguracji do większości problemów zawodowych, technicznych, organizacyjnych i decyzyjnych.
+
+Luna w rolach A i E ma sens, gdy koordynator może zlecić konkretną analizę standardowego rozwiązania lub optymalizację z jasnymi kryteriami. Jeżeli te zadania wymagają otwartych badań, wielu niepewnych założeń lub złożonego rozumowania, ustaw dla nich `gpt-6.1-sol` z `medium` albo `high`. Agenci B i D oraz obaj krytycy korzystają z Sol, ponieważ szukanie alternatyw, kontrprzykładów i rozstrzyganie sprzeczności nie są prostymi zadaniami pomocniczymi.
 
 ---
 
@@ -88,26 +102,30 @@ Używaj tej konfiguracji do większości problemów zawodowych, technicznych, or
 
 Preset przeznaczony dla problemów, gdzie **jakość rozwiązania jest znacznie ważniejsza od kosztu obliczeń**.
 
-| Etap                          | Model        | Effort           |
-| ----------------------------- | ------------ | ---------------- |
-| Orchestrator / główna sesja   | **Astra**    | **High**         |
-| FAZA 2 — C + F                | **Sol**      | **High**         |
-| FAZA 2 — A + B + D + E        | **Terra**    | **High**         |
-| Critic 1 — Adversarial        | **Astra**    | **High**         |
-| Critic 2 — Comparative        | **Sol**      | **High**         |
-| FAZA 4 — 2–4 Follow-up Agents | **Sol**      | **High**         |
-| FAZA 5 — Verification         | **Astra**    | **xHigh**        |
-| FAZA 6 — Final Synthesis      | główna sesja | **High / xHigh** |
+| Etap | Model | Effort |
+| --- | --- | --- |
+| Orchestrator / główna sesja | `gpt-6-astra` | `high` |
+| FAZA 2 — B + C + D + F | `gpt-6.1-sol` | `high` |
+| FAZA 2 — A + E | `gpt-6.1-sol` | `high` |
+| Critic 1 — Adversarial | `gpt-6-astra` | `high` |
+| Critic 2 — Comparative | `gpt-6.1-sol` | `high` |
+| FAZA 4 — 2–4 Follow-up Agents | `gpt-6.1-sol` | `high` |
+| FAZA 5 — Verification | `gpt-6-astra` | `xhigh` |
+| FAZA 6 — Final Synthesis | główna sesja (`gpt-6-astra`) | `high` |
 
 Używaj go do trudnych problemów naukowych, matematycznych, badawczych lub szczególnie ważnych problemów strategicznych.
+
+`medium`, `high` i `xhigh` są identyfikatorami poziomów reasoning effort; `xhigh` odpowiada Extra High w interfejsie. Wszystkie trzy modele obsługują poziomy użyte w tabelach, ale kontrolki dostępne w kliencie mogą zależeć od konta. Wyższy effort zwiększa czas i zużycie tokenów. To punkty startowe do oceny na własnych zadaniach.
+
+Źródła: [GPT-6.1 Sol](https://developers.openai.com/api/docs/models/gpt-6.1-sol), [GPT-6 Luna](https://developers.openai.com/api/docs/models/gpt-6-luna), [GPT-6 Astra](https://developers.openai.com/api/docs/models/gpt-6-astra), [modele i reasoning subagentów](https://learn.chatgpt.com/docs/agent-configuration/subagents#choosing-models-and-reasoning).
 
 ---
 
 # Jak używać?
 
 1. Otwórz nową sesję Codexa.
-2. Wybierz model i effort dla głównej sesji.
-3. Uzupełnij w promptcie:
+2. Wybierz w interfejsie model i effort dla głównej sesji zgodnie z wybranym presetem. Sam tekst promptu nie przełącza modelu koordynatora.
+3. Skopiuj [Prompt.md](Prompt.md) i uzupełnij:
 
 ```text
 [PROBLEM]
@@ -115,10 +133,12 @@ Używaj go do trudnych problemów naukowych, matematycznych, badawczych lub szcz
 [CEL]
 ```
 
-4. Ustaw modele dla poszczególnych faz.
+4. Prompt ma już wpisany preset typowego problemu zawodowego. Dla trudnego problemu badawczego zmień model i effort koordynatora oraz ustawienia poszczególnych faz zgodnie z drugą tabelą.
 5. Uruchom prompt.
 
 Orchestrator zajmie się dalszym podziałem pracy.
+
+W promptcie jawnie żądamy delegowania do subagentów i wskazujemy ich modele. Ustawienia trzeba zastosować przy ich uruchamianiu; bez jawnej konfiguracji subagent może odziedziczyć model i effort rodzica. Jeżeli środowisko nie obsługuje wybranego modelu, effortu lub liczby równoległych agentów, koordynator powinien podać faktycznie użyte ustawienia i ograniczenia. Przy mniejszym limicie równoległości uruchom agentów partiami, zachowując niezależność pierwszej rundy.
 
 ---
 
